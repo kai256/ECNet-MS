@@ -1,0 +1,320 @@
+<!DOCTYPE doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="webkit" name="renderer" />
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>
+    未审理案件列表 | 法官工作空间
+  </title>
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <link href="img/icon/icon.png" rel="apple-touch-icon-precomposed" />
+  <link href="img/favicon.ico" rel="shortcut icon" />
+  <script src="js/jquery-2.1.4.min.js">
+  </script>
+  <!--[if gte IE 9]>
+    <script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="js/html5shiv.min.js" type="text/javascript"></script>
+    <script src="js/respond.min.js" type="text/javascript"></script>
+    <script src="js/selectivizr-min.js" type="text/javascript"></script>
+<![endif]-->
+  <!--[if lt IE 9]>
+    <script>window.location.href='upgrade-browser.html';</script>
+<![endif]-->
+  <style type="text/css">
+  a {
+    color: #66CAFF;
+  }
+  </style>
+</head>
+
+<body class="user-select">
+  <section class="container-fluid">
+    <header>
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button aria-expanded="false" class="navbar-toggle collapsed" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+              <span class="sr-only">
+                  切换导航
+                </span>
+              <span class="icon-bar">
+                </span>
+              <span class="icon-bar">
+                </span>
+              <span class="icon-bar">
+                </span>
+            </button>
+            <a class="navbar-brand" href="/">
+                法官工作空间
+              </a>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                    admin
+                    <span class="caret">
+                    </span>
+                  </a>
+                <ul class="dropdown-menu dropdown-menu-left">
+                  <li>
+                    <a data-target="#seeUserInfo" data-toggle="modal" title="查看或修改个人信息">
+                        个人信息
+                      </a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="logout.html" onclick="if(!confirm('是否确认退出？'))return false;">
+                    退出登录
+                  </a>
+              </li>
+            </ul>
+            <form action="" class="navbar-form navbar-right" method="post" role="search">
+              <div class="input-group">
+                <input autocomplete="off" class="form-control" maxlength="15" placeholder="键入关键字搜索" type="text">
+                <span class="input-group-btn">
+                      <button class="btn btn-default" type="submit">
+                        搜索
+                      </button>
+                    </span>
+                </input>
+              </div>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="row">
+      <aside class="col-sm-3 col-md-2 col-lg-2 sidebar">
+        <ul class="nav nav-sidebar">
+          <li><a href="caselist.html">正在审理</a></li>
+          <li class="active"><a href="caselistno.html">未审理</a></li>
+          <li><a href="caselistyes.html">已审结</a></li>
+        </ul>
+      </aside>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-lg-10 col-md-offset-2 main" id="main">
+        <form action="/Article/checkAll" method="post">
+          <h1 class="page-header">操作</h1>
+          <ol class="breadcrumb">
+            <li><a href="addcase.html">导入案件</a></li>
+          </ol>
+          <h1 class="page-header">管理</h1>
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>
+                    <span class="glyphicon glyphicon-th-large"> </span>
+                    <span class="visible-lg">选择</span>
+                  </th>
+                  <th>
+                    <span class="glyphicon glyphicon-file"> </span>
+                    <span class="visible-lg">序号</span>
+                  </th>
+                  <th>
+                    <span class="glyphicon glyphicon-file"></span>
+                    <span class="visible-lg">案号</span>
+                  </th>
+                  <th>
+                    <span class="glyphicon glyphicon-file"> </span>
+                    <span class="visible-lg">名称</span>
+                  </th>
+                  <th>
+                    <span class="glyphicon glyphicon-time"></span>
+                    <span class="visible-lg">立案日期</span>
+                  </th>
+                  <th>
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    <span class="visible-lg">操作</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% ino=1 %>
+                <% for(var i =0;i < data.length;i++){ %>
+                  <tr>
+                    <td>
+                      <input class="input-control" name="checkbox[]" type="checkbox" value="" />
+                    </td>
+                    <td>
+                      <%= ino %><% ino=ino+1 %>
+                    </td>
+                    <td>
+                      <%= data[i]['caseid'] %>
+                    </td>
+                    <td class="article-title">
+                      <%= data[i]['casename'] %>
+                    </td>
+                    <td>
+                      <%= data[i]['casedate'] %>
+                    </td>
+                    <td>
+                      <a href="">证据链</a>
+                      <a rel="6">文书说理</a>
+                      <a rel="6">文书说理</a>
+                    </td>
+                  </tr>
+                  <% } %>
+              </tbody>
+            </table>
+          </div>
+          <footer class="message_footer">
+            <nav>
+              <div class="btn-toolbar operation" role="toolbar">
+                <div class="btn-group" role="group">
+                  <a class="btn btn-default" onclick="select()">全选</a>
+                  <a class="btn btn-default" onclick="reverse()">反选</a>
+                  <a class="btn btn-default" onclick="noselect()">不选</a>
+                </div>
+                <div class="btn-group" role="group">
+                  <button class="btn btn-default" data-placement="bottom" data-toggle="tooltip" name="checkbox_delete" title="删除全部选中" type="submit">
+                    删除
+                  </button>
+                </div>
+              </div>
+              <ul class="pagination pagenav">
+                <li class="disabled">
+                  <a aria-label="Previous"><span aria-hidden="true">«</span></a>
+                </li>
+                <li class="active"><a>1</a></li>
+                <li class="disabled">
+                  <a aria-label="Next"><span aria-hidden="true">»</span></a>
+                </li>
+              </ul>
+            </nav>
+          </footer>
+        </form>
+      </div>
+    </div>
+  </section>
+  <br/>
+  <br/>
+  <!--个人信息模态框-->
+  <div aria-labelledby="myModalLabel" class="modal fade" id="seeUserInfo" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+      <form action="" method="post">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+              <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title">
+                个人信息
+              </h4>
+          </div>
+          <div class="modal-body">
+            <table class="table" style="margin-bottom:0px;">
+              <thead>
+                <tr>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td wdith="20%">姓名:</td>
+                  <td width="80%">
+                    <input autocomplete="off" class="form-control" maxlength="10" name="truename" type="text" value="admin" />
+                  </td>
+                </tr>
+                <tr>
+                  <td wdith="20%">帐号:</td>
+                  <td width="80%">
+                    <input autocomplete="off" class="form-control" maxlength="10" name="username" type="text" value="admin" />
+                  </td>
+                </tr>
+                <tr>
+                  <td wdith="20%">邮箱:</td>
+                  <td width="80%">
+                    <input autocomplete="off" class="form-control" maxlength="13" name="usertel" type="text" value="" />
+                  </td>
+                </tr>
+                <tr>
+                  <td wdith="20%">旧密码:</td>
+                  <td width="80%">
+                    <input autocomplete="off" class="form-control" maxlength="18" name="old_password" type="password" />
+                  </td>
+                </tr>
+                <tr>
+                  <td wdith="20%">新密码:</td>
+                  <td width="80%">
+                    <input autocomplete="off" class="form-control" maxlength="18" name="password" type="password" />
+                  </td>
+                </tr>
+                <tr>
+                  <td wdith="20%">确认密码:</td>
+                  <td width="80%">
+                    <input autocomplete="off" class="form-control" maxlength="18" name="new_password" type="password" />
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr></tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" type="button">取消</button>
+            <button class="btn btn-primary" type="submit">提交</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!--提示模态框-->
+  <div aria-labelledby="areDevelopingModalLabel" class="modal fade user-select" id="areDeveloping" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="areDevelopingModalLabel" style="cursor:default;">
+              该功能正在日以继夜的开发中…
+            </h4>
+        </div>
+        <div class="modal-body">
+          <img alt="深思熟虑" src="public/img/baoman/baoman_01.gif" />
+          <p style="padding:15px 15px 15px 100px; position:absolute; top:15px; cursor:default;">
+            很抱歉，程序猿正在日以继夜的开发此功能，本程序将会在以后的版本中持续完善！
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-dismiss="modal" type="button">朕已阅</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/bootstrap.min.js">
+  </script>
+  <script src="js/admin-scripts.js">
+  </script>
+  <script>
+  //是否确认删除
+  $(function() {
+    $("#main table tbody tr td a").click(function() {
+      var name = $(this);
+      var id = name.attr("rel"); //对应id  
+      if (event.srcElement.outerText == "删除") {
+        if (window.confirm("此操作不可逆，是否确认？")) {
+          $.ajax({
+            type: "POST",
+            url: "/Article/delete",
+            data: "id=" + id,
+            cache: false, //不缓存此页面   
+            success: function(data) {
+              window.location.reload();
+            }
+          });
+        };
+      };
+    });
+  });
+  </script>
+</body>
+
+</html>

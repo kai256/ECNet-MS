@@ -1,0 +1,107 @@
+<!DOCTYPE doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="webkit" name="renderer">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>登陆 | 法官工作空间</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="css/style.css" rel="stylesheet" type="text/css">
+  <link href="css/login.css" rel="stylesheet" type="text/css">
+  <link href="img/icon.png" rel="apple-touch-icon-precomposed">
+  <link href="img/favicon.ico" rel="shortcut icon">
+  <script src="js/jquery-2.1.4.min.js">
+  </script>
+  <!--[if gte IE 9]>
+  <script src="public/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+  <script src="public/js/html5shiv.min.js" type="text/javascript"></script>
+  <script src="public/js/respond.min.js" type="text/javascript"></script>
+  <script src="public/js/selectivizr-min.js" type="text/javascript"></script>
+  <![endif]-->
+  <!--[if lt IE 9]>
+  <script>window.location.href='upgrade-browser.html';</script>
+  <![endif]-->
+</head>
+
+<body class="user-select">
+  <div class="container">
+    <div class="siteIcon">
+      <img alt="" data-placement="top" data-toggle="tooltip" draggable="false" src="img/icon.png" title="法官工作空间间" />
+    </div>
+    <p class="siteTitle">
+      法官工作空间
+    </p>
+    <form action="./logincheck.html" autocomplete="off" class="form-signin" method="post" id="loginForm">
+      <h2 class="form-signin-heading">
+        </h2>
+      <label class="sr-only" for="userName">
+        用户编号
+      </label>
+      <input autocomplete="off" autofocus="" class="form-control" id="userName" maxlength="10" name="username" placeholder="请输入用户名" required="" type="text">
+      <label class="sr-only" for="userPwd">
+        账号密码
+      </label>
+      <input autocomplete="off" class="form-control" id="userPwd" maxlength="18" name="userpwd" placeholder="请输入密码" required="" type="password">
+      <button class="btn btn-lg btn-primary btn-block" id="signinSubmit" type="button">
+        登录
+      </button>
+      </input>
+      </input>
+    </form>
+    <div class="footer">
+      <p>
+        <a data-placement="left" data-toggle="tooltip" href="caselist.html" title="不知道自己在哪?">
+            回到后台 →
+          </a>
+      </p>
+    </div>
+  </div>
+  <script src="js/bootstrap.min.js"></script>
+  <script>
+  $('[data-toggle="tooltip"]').tooltip();
+  window.oncontextmenu = function() {
+    //return false;
+  };
+  $(document).keypress(function(e) {
+    var eCode = e.keyCode;
+    if (eCode == 13) {
+      $('#signinSubmit').click();
+    }
+  });
+  $('.siteIcon img').click(function() {
+    window.location.reload();
+  });
+  $('#userName').focus(function() {
+    $('#signinSubmit').text('登录');
+  });
+  $('#userPwd').focus(function() {
+    $('#signinSubmit').text('登录');
+  });
+  $('#signinSubmit').click(function() {
+    if ($('#userName').val() === '') {
+      $(this).text('用户名不能为空');
+    } else if ($('#userPwd').val() === '') {
+      $(this).text('密码不能为空');
+    } else {
+      $(this).text('请稍后...');
+      $username = $('#userName').val();
+      $password = $('#userPwd').val();
+      $.post('/loginto.html', {
+        'username': $username,
+        'password': $password
+      }, function(data) {
+        if (data['data'] == true) {
+          $(this).text('正在登录...');
+          $('#loginForm').submit();
+        } else {
+          $('#signinSubmit').text('帐号或密码错误');
+        }
+      });
+    }
+  });
+  </script>
+</body>
+
+</html>
